@@ -1,3 +1,4 @@
+import 'package:birdy_app/view/screens/login.dart';
 import 'package:birdy_app/view/screens/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class Start extends StatelessWidget {
                           )
                       )),
                   onPressed: () {
-                    Navigator.pushNamed(context, SignUp.signupId);
+                    Navigator.pushNamed(context, Login.id);
                   },
                   child: Text('LOGIN '),
 

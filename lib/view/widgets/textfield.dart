@@ -40,7 +40,7 @@ class _FormDesignState extends State<FormDesign> {
         ),
         child:  TextFormField(
         controller: widget.controllerValue,
-          style: TextStyle(height: .2),
+          style: TextStyle(height: .2,color: Colors.grey[600]),
           decoration: InputDecoration(
               filled: true,
               fillColor:  Color(0xfff79281).withOpacity(.3),

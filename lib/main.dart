@@ -1,3 +1,5 @@
+import 'package:birdy_app/view/screens/forgetpassword.dart';
+import 'package:birdy_app/view/screens/login.dart';
 import 'package:birdy_app/view/screens/signup.dart';
 import 'package:birdy_app/view/screens/start.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       home: Start(),
       routes: {
-        SignUp.signupId:(context)=>SignUp()
+        SignUp.signupId:(context)=>SignUp(),
+        Login.id:(context)=>Login(),
+        ForgetPassword.id:(context)=>ForgetPassword()
 
       },
     );

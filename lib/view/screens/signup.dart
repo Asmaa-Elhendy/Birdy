@@ -1,3 +1,4 @@
+import 'package:birdy_app/view/screens/forgetpassword.dart';
 import 'package:birdy_app/view/widgets/textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,9 @@ class _SignUpState extends State<SignUp> {
                             padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width/99),
                             child: Align(alignment: Alignment.bottomRight,
                               child: InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  Navigator.pushNamed(context, ForgetPassword.id);
+                                },
                                 child: Text('forget password?',style: TextStyle(color: Color(0xfff79281),),),),
                             ),
                           )
