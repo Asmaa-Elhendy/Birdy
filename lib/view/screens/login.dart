@@ -1,8 +1,6 @@
-
 import 'package:birdy_app/view/widgets/textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'forgetpassword.dart';
 
 class Login extends StatefulWidget {
@@ -45,12 +43,13 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height*0.064,),
                   Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: _formKey,
                      child: Column(
                        children: [
-                         FormDesign(title: "Enter your Email", icon: Icons.email_outlined, controllerValue: emailController,),
+                         FormDesign(title: "Email Address", icon: Icons.email_outlined, controllerValue: emailController,),
                          SizedBox(height: MediaQuery.of(context).size.height*0.03,),
-                         FormDesign(title: "Enter Password", icon: Icons.lock,controllerValue: passwordController,),
+                         FormDesign(title: "Password", icon: Icons.lock,controllerValue: passwordController,),
                        ],
                      ),
                   ),
@@ -78,14 +77,8 @@ class _LoginState extends State<Login> {
                         if (_formKey.currentState!.validate()) {
                           print(emailController.text);
                           print(passwordController.text);
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   const SnackBar(content: Text('Processing Data')),
-                  // );
                 }
               },
-
                       shape: RoundedRectangleBorder(
 
                           borderRadius: BorderRadius.circular(10)),
@@ -108,26 +101,9 @@ class _LoginState extends State<Login> {
                         ),
                       )),
 
-
-
                 ],
               )
-              // child: Column(
-              //
-              //   // mainAxisAlignment: MainAxisAlignment.center,
-              //   // crossAxisAlignment: CrossAxisAlignment.center,
-              //   children:<Widget>[
-              //
-              //     Center(
-              //       child: Container(
-              //         width: double.infinity,
-              //         color: Colors.black,
-              //       ),
-              //     )
-              //
-              //
-              //   ],
-              // ),
+
             ),
           ),
         ),
@@ -136,56 +112,3 @@ class _LoginState extends State<Login> {
   }
 }
 
-
-// class Login extends StatefulWidget {
-//   const Login({Key? key}) : super(key: key);
-//
-//   @override
-//   _LoginState createState() => _LoginState();
-// }
-//
-// class _LoginState extends State<Login> {
-//   final _formKey = GlobalKey<FormState>();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Form(
-//               key: _formKey,
-//               child: FormDesign(title: "hgshsg", iccon: Icons.description,),
-//             ),
-//         SizedBox(
-//           width: MediaQuery.of(context).size.width*0.8,
-//           height: MediaQuery.of(context).size.height*0.07,
-//           child: RaisedButton(onPressed: (){
-//     if (_formKey.currentState!.validate()) {
-//                   // If the form is valid, display a snackbar. In the real world,
-//                   // you'd often call a server or save the information in a database.
-//                   // ScaffoldMessenger.of(context).showSnackBar(
-//                   //   const SnackBar(content: Text('Processing Data')),
-//                   // );
-//                 }
-//               },
-//
-//           //},
-//             shape: RoundedRectangleBorder(
-//
-//                 borderRadius: BorderRadius.circular(10)),
-//             color: Color(0xfff79281),
-//             child: Text("Login",
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.normal
-//               ),
-//             ),
-//
-//           ),
-//         ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

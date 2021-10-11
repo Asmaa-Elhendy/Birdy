@@ -1,7 +1,8 @@
-import 'package:birdy_app/view/screens/forgetpassword.dart';
 import 'package:birdy_app/view/widgets/textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'dashboard.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -39,31 +40,23 @@ class _SignUpState extends State<SignUp> {
                 children: [
                  SizedBox(height: MediaQuery.of(context).size.height*1/7,),
                 Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: _formKey,
-                  child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/images/robin0.png'),
-                          Text('Create an Account' ,style: TextStyle(color: Color(0xfff79281),fontWeight: FontWeight.bold,fontSize: 25),),
-                         FormDesign(title: 'name', icon: Icons.account_circle_rounded, controllerValue: name_con),
-                          FormDesign(title: 'Phone Number', icon: Icons.phone, controllerValue: phone_con),
-                         FormDesign(title: 'Email Address', icon: Icons.email_outlined, controllerValue: email_con),
-                         FormDesign(title: 'Password', icon: Icons.lock_open,controllerValue:password_con ),
-                          Padding(
-                            padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width/99),
-                            child: Align(alignment: Alignment.bottomRight,
-                              child: InkWell(
-                                onTap: (){
-                                  Navigator.pushNamed(context, ForgetPassword.id);
-                                },
-                                child: Text('forget password?',style: TextStyle(color: Color(0xfff79281),),),),
-                            ),
-                          )
+                  child: Center(
+                    child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/images/robin0.png'),
+                            Text('Create an Account' ,style: TextStyle(color: Color(0xfff79281),fontWeight: FontWeight.bold,fontSize: 25),),
+                           FormDesign(title: 'name', icon: Icons.account_circle_rounded, controllerValue: name_con),
+                            FormDesign(title: 'Phone Number', icon: Icons.phone, controllerValue: phone_con),
+                           FormDesign(title: 'Email Address', icon: Icons.email_outlined, controllerValue: email_con),
+                           FormDesign(title: 'Password', icon: Icons.lock_open,controllerValue:password_con ),
 
+                          ],
 
-                        ],
-
-                    ),
+                      ),
+                  ),
                 ),
                   ElevatedButton(
                     style: ButtonStyle(
@@ -74,6 +67,7 @@ class _SignUpState extends State<SignUp> {
                             )
                         )),
                     onPressed: () {
+                      Navigator.pushNamed(context, Dashboard.dashboardid);
                       print('${name_con.text} name' );
                       print('${phone_con.text} phone' );
                       print('${email_con.text} email' );

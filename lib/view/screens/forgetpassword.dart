@@ -34,6 +34,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height*0.064,),
                   Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: _formKey,
                     child: Column(
                       children: [

@@ -1,3 +1,4 @@
+import 'package:birdy_app/view/screens/dashboard.dart';
 import 'package:birdy_app/view/screens/forgetpassword.dart';
 import 'package:birdy_app/view/screens/login.dart';
 import 'package:birdy_app/view/screens/signup.dart';
@@ -18,12 +19,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
         primaryColor: Color(0xfff79281),
+
       ),
       home: Start(),
       routes: {
         SignUp.signupId:(context)=>SignUp(),
         Login.id:(context)=>Login(),
-        ForgetPassword.id:(context)=>ForgetPassword()
+        ForgetPassword.id:(context)=>ForgetPassword(),
+        Dashboard.dashboardid:(context)=>Dashboard()
 
       },
     );
