@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   email_validator: ^2.0.1
   custom_navigation_bar: ^0.8.2
+  provider: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,9 @@ flutter:
     - assets/images/chat-room.png
     - assets/images/dove.png
     - assets/images/cageblack.png
+    - assets/images/manage-room.png
+    - assets/images/edit.png
+    - assets/images/delete-activate.png
 
   #   - images/a_dot_ham.jpeg
 

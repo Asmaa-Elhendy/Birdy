@@ -84,7 +84,7 @@ class _UserProfileState extends State<UserProfile> {
                                     fontWeight: FontWeight.normal, fontSize: 15),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25 ,
+                                width: MediaQuery.of(context).size.width * 0.3 ,
                                 child: ElevatedButton(
                                   child: Text(
                                     "Edit Profile",
@@ -138,7 +138,7 @@ class _UserProfileState extends State<UserProfile> {
                         Text(
                           "Option",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 22),
+                              fontWeight: FontWeight.w500, fontSize: 20),
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
@@ -148,7 +148,7 @@ class _UserProfileState extends State<UserProfile> {
                             Text(
                               "Notification",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 18),
+                                  fontWeight: FontWeight.w400, fontSize: 17),
                             ),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
@@ -164,7 +164,7 @@ class _UserProfileState extends State<UserProfile> {
                             Text(
                               "Language",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 18),
+                                  fontWeight: FontWeight.w400, fontSize: 17),
                             ),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
@@ -188,7 +188,7 @@ class _UserProfileState extends State<UserProfile> {
                         Text(
                           "Account",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 22),
+                              fontWeight: FontWeight.w500, fontSize: 20),
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
@@ -198,7 +198,7 @@ class _UserProfileState extends State<UserProfile> {
                             Text(
                               "Personal Information",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 18),
+                                  fontWeight: FontWeight.w400, fontSize: 17),
                             ),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),

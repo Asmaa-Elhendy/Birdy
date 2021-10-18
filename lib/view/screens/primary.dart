@@ -1,3 +1,5 @@
+
+import 'package:birdy_app/view/screens/room.dart';
 import 'package:birdy_app/view/screens/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +47,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
                 children: [
                   InkWell(
                     onTap: (){
-                      Navigator.pushNamed(context, SignUp.signupId);
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Rooms()));
                     },
                     child:  container_listview(width, hight,'Room','assets/images/chat-room.png'),
                   ),
