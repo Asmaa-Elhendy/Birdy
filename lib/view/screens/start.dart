@@ -1,5 +1,6 @@
 import 'package:birdy_app/view/screens/login.dart';
 import 'package:birdy_app/view/screens/signup.dart';
+import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:flutter/material.dart';
 
 class Start extends StatelessWidget {
@@ -28,7 +29,7 @@ class Start extends StatelessWidget {
                     )
                   )),
                   onPressed: () {
-                    Navigator.pushNamed(context, SignUp.signupId);
+                    Navigator.of(context).push( createRoute(SignUp()));
                   },
                 child: Text('SIGN UP',style: TextStyle(color: Color(0xfff79281),),),
                 ),
@@ -42,7 +43,7 @@ class Start extends StatelessWidget {
                           )
                       )),
                   onPressed: () {
-                    Navigator.pushNamed(context, Login.id);
+                    Navigator.of(context).push( createRoute(Login()));
                   },
                   child: Text('LOGIN '),
 

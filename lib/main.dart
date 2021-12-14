@@ -1,3 +1,4 @@
+import 'package:birdy_app/controller/providers/cage_provider.dart';
 import 'package:birdy_app/view/screens/dashboard.dart';
 import 'package:birdy_app/view/screens/forgetpassword.dart';
 import 'package:birdy_app/view/screens/login.dart';
@@ -16,8 +17,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_)=>Rooms_Provider(),
+    return MultiProvider(
+      providers: [
+       ChangeNotifierProvider( create: (_)=>Rooms_Provider(),),
+        ChangeNotifierProvider( create: (_)=>CageProvider(),)
+
+      ],
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -32,6 +38,7 @@ class MyApp extends StatelessWidget {
           Login.id:(context)=>Login(),
           ForgetPassword.id:(context)=>ForgetPassword(),
           Dashboard.dashboardid:(context)=>Dashboard(),
+
 
         },
       ),

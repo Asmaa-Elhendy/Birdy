@@ -1,7 +1,13 @@
 import 'package:birdy_app/controller/providers/rooms_provider.dart';
+import 'package:birdy_app/view/screens/cages.dart';
+import 'package:birdy_app/view/screens/primary.dart';
+import 'package:birdy_app/view/screens/profile.dart';
+import 'package:birdy_app/view/widgets/snack_bar_delete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'dashboard.dart';
 
 class Rooms extends StatefulWidget {
   const Rooms({Key? key}) : super(key: key);
@@ -12,7 +18,14 @@ class Rooms extends StatefulWidget {
 
 class _RoomsState extends State<Rooms> {
   late String newName;
+  late String roomName="";
+  late int cageCount =1;
+  int selected_index=0;
 
+  final List<Widget> _children = [
+    PrimaryPage(),
+    UserProfile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +33,7 @@ class _RoomsState extends State<Rooms> {
         .of(context)
         .size
         .width;
-    double hight = MediaQuery
+    double height = MediaQuery
         .of(context)
         .size
         .height;
@@ -34,13 +47,13 @@ class _RoomsState extends State<Rooms> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: hight * .05,
+              height: height * .05,
             ),
             Center(
               child: Container(
                 width: width * .85,
-                height: hight * .17,
-                padding: EdgeInsets.all(hight * .03),
+                height: height * .17,
+                padding: EdgeInsets.all(height * .03),
                 decoration: BoxDecoration(
                     color: Colors.transparent.withOpacity(.1),
                     borderRadius: BorderRadius.circular(25)
@@ -59,7 +72,7 @@ class _RoomsState extends State<Rooms> {
                             .bold),),
                         Text('manage your rooms'),
                         SizedBox(
-                          height: hight * .05,
+                          height: height * .05,
                           child: ElevatedButton(
                             child: Text(
                               "ADD Room",
@@ -68,6 +81,8 @@ class _RoomsState extends State<Rooms> {
                               ),
                             ),
                             style: ButtonStyle(
+                                overlayColor:  MaterialStateProperty.all<Color>(
+                                    Colors.grey),
                                 backgroundColor:
                                 MaterialStateProperty.all<Color>(
                                     Colors.white),
@@ -79,7 +94,17 @@ class _RoomsState extends State<Rooms> {
                                         side: BorderSide(
                                           color: Color(0xfff79281),
                                         )))),
-                            onPressed: () {},
+                            onPressed: () {
+                              // List<String> names = rooms_provider.whatName();
+                              // print(names);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildAddRoomDialog(context,rooms_provider),
+                              );
+
+
+                            },
                           ),
                         ),
 
@@ -87,20 +112,47 @@ class _RoomsState extends State<Rooms> {
                   ],
                 ),
               ),
-            ), SizedBox(height: hight * .01,),
+            ), SizedBox(height: height * .01,),
             SizedBox(
-                height: hight * .75,
+                height: height * .7,
                 child: ListView.builder(
                     itemCount: rooms_provider.rooms.length,
                     itemBuilder: (context, index) {
-                      return customListtile(
-                          width, hight, rooms_provider.rooms[index].name,
-                          context, rooms_provider, index);
+                      return InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Cages()));
+                        },
+                        child: customListtile(
+                            width, height, rooms_provider.rooms[index].name,
+                            context, rooms_provider, index),
+                      );
                     })
             )
           ],),
-      ),
+      ),   bottomNavigationBar: BottomNavigationBar(
+      selectedItemColor:Color(0xfff79281) ,
+      currentIndex: selected_index,
+      onTap: _onTap,
+      items: <BottomNavigationBarItem> [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home,),
+          label: 'Home',
+
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle_rounded,),
+          label: 'profile',
+        ),
+      ],
+
+    ),
     );
+  }
+  _onTap(int index) {
+    setState(() {
+      selected_index=index;
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,)));
+    });
   }
 
   Widget customListtile(width, hight, String name, context,
@@ -127,17 +179,20 @@ class _RoomsState extends State<Rooms> {
                     builder: (BuildContext context) =>
                         _buildPopupDialog(context,rooms_provider,index),
                   );
-                },
+                }, child:   Icon(Icons.edit,color: Color(0xfff79281),),
 
-                    child: Image.asset("assets/images/edit.png", width: 30,),
-                  ),
+                   ),
 
                 SizedBox(width: width * .03,),
                 GestureDetector(
                   onTap: (){
-                    rooms_provider.delete_room(rooms_provider.rooms[index].id);
+                 ScaffoldMessenger.of(context).showSnackBar(Snack.SNackbarfun(context, (){
+                   rooms_provider.delete_room(rooms_provider.rooms[index].id);
+                 }));
                   },
-                  child: Image.asset("assets/images/delete-activate.png", width: 30,),
+                  child:Icon(Icons.delete_forever,color: Color(0xfff79281),),
+
+
                 )
               ],)
           ],)
@@ -197,6 +252,95 @@ class _RoomsState extends State<Rooms> {
                   newName='';
                 });
 
+              },
+              textColor: Theme
+                  .of(context)
+                  .primaryColor,
+              child: const Text('ok'),
+            )
+          ],mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        )
+      ],
+    );
+  }
+  Widget _buildAddRoomDialog(BuildContext context,Rooms_Provider rooms_provider){//**add new room*
+    return new AlertDialog(
+      title: const Text('Add New Room'),
+      content: new Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextField(
+                decoration: InputDecoration(
+                  labelText: "Room's Name",
+                  labelStyle: TextStyle(
+                      color: Color(0xfff79281),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Color(0xfff79281), width: 0.0),
+                      borderRadius: BorderRadius.all(Radius.circular(25))
+                  ), focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color(0xfff79281), width: 0.0),
+                    borderRadius: BorderRadius.all(Radius.circular(25))
+                ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    roomName = value;
+                  });
+                }),
+            SizedBox(height:MediaQuery.of(context).size.height*0.034,),
+            TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Number of cages",
+                  labelStyle: TextStyle(
+                      color: Color(0xfff79281),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Color(0xfff79281), width: 0.0),
+                      borderRadius: BorderRadius.all(Radius.circular(25))
+                  ), focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color(0xfff79281), width: 0.0),
+                    borderRadius: BorderRadius.all(Radius.circular(25))
+                ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    cageCount = int.parse(value);
+                  });
+                }),
+          ]
+      ),
+      actions: <Widget>[
+        Row(
+          children: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              textColor: Theme
+                  .of(context)
+                  .primaryColor,
+              child: const Text('close'),
+            ),new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                rooms_provider.addRooms(roomName,cageCount);
+                setState(() {
+                  roomName='';
+                  cageCount=1;
+
+                });
+                print(cageCount);
               },
               textColor: Theme
                   .of(context)

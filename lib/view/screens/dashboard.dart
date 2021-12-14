@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
   static  const dashboardid='id';
+  int selected_index;
+  Dashboard({this.selected_index=0});
+
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  int selected_index=0;
+
 
   final List<Widget> _children = [
     PrimaryPage(),
@@ -23,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor:Color(0xfff79281) ,
-      currentIndex: selected_index,
+      currentIndex: widget.selected_index,
         onTap: _onTap,
         items: <BottomNavigationBarItem> [
           BottomNavigationBarItem(
@@ -38,13 +41,14 @@ class _DashboardState extends State<Dashboard> {
         ],
 
       ),
-      body: _children[selected_index]
+      body: _children[widget.selected_index]
     );
   }
 
   _onTap(int index) {
   setState(() {
-    selected_index=index;
+   widget. selected_index=index;
+
   });
   }
 }

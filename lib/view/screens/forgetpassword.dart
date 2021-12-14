@@ -1,4 +1,6 @@
 
+import 'package:birdy_app/view/screens/email_confirm.dart';
+import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:birdy_app/view/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +40,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        FormDesign(title: "Enter your Email", icon: Icons.email_outlined,controllerValue: emailController,),
+                        FormDesign(title: 'Email Address', icon: Icons.email_outlined,controllerValue: emailController,),
 
                       ],
                     ),
@@ -52,6 +54,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     child: RaisedButton(onPressed: (){
                       if (_formKey.currentState!.validate()) {
                         print(emailController.text);
+                        Navigator.of(context).push(createRoute(EmailConfirm()));
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
                         // ScaffoldMessenger.of(context).showSnackBar(
@@ -74,34 +77,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     ),
 
                   ),
-                  FlatButton(//padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.27),
-                      onPressed: (){},
-                      child: Text("i haven't an account",
-                        style: TextStyle(
-                          color: Color(0xfff79281),
-                        ),
-                      )),
+
 
 
 
                 ],
               )
-            // child: Column(
-            //
-            //   // mainAxisAlignment: MainAxisAlignment.center,
-            //   // crossAxisAlignment: CrossAxisAlignment.center,
-            //   children:<Widget>[
-            //
-            //     Center(
-            //       child: Container(
-            //         width: double.infinity,
-            //         color: Colors.black,
-            //       ),
-            //     )
-            //
-            //
-            //   ],
-            // ),
+
           ),
         ),
       ),

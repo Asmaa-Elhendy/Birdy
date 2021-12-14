@@ -36,7 +36,7 @@ class _FormDesignState extends State<FormDesign> {
         ),
         child: TextFormField(
             controller: widget.controllerValue,
-            obscureText: widget.title == 'Password' ? notVisible : false,
+            obscureText: widget.title == 'Password' ||widget.title=='Confirm Password'? notVisible : false,
             //  maxLength: 15,
 
             style: TextStyle(color: Colors.grey[600]),
@@ -47,20 +47,20 @@ class _FormDesignState extends State<FormDesign> {
             decoration: InputDecoration(
                 filled: true,
                 fillColor: Color(0xfff79281).withOpacity(.3),
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(color: Color(0xfff79281).withOpacity(0.3)),
                 ),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
-                      color: Color(0xfff79281),
+                      color:Color(0xfff79281),
                     )),
                 prefixIcon: Icon(
                   widget.icon,
                   color: Color(0xfff79281),
                 ),
-                suffixIcon: widget.title == 'Password'
+                suffixIcon: widget.title == 'Password'||widget.title=='Confirm Password'
                     ? IconButton(
                         icon: Icon(notVisible
                             ? Icons.remove_red_eye
