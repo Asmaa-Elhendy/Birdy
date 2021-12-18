@@ -140,6 +140,10 @@ class _RoomsState extends State<Rooms> {
 
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.event),
+          label: 'Daily tasks',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_rounded,),
           label: 'profile',
         ),

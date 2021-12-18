@@ -17,7 +17,7 @@ class Add_bird extends StatefulWidget {
 
 class _Add_birdState extends State<Add_bird> {
   PickedFile? imageFile = null;
-  int selected_index=0;
+
   final _formKey = GlobalKey<FormState>();
   final birdTypeConroller = TextEditingController();
   final birdBreadConroller  = TextEditingController();
@@ -83,23 +83,7 @@ class _Add_birdState extends State<Add_bird> {
       },
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor:Color(0xfff79281) ,
-          currentIndex: selected_index,
-          onTap: _onTap,
-          items: <BottomNavigationBarItem> [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home,),
-              label: 'Home',
 
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_rounded,),
-              label: 'profile',
-            ),
-          ],
-
-        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -324,12 +308,7 @@ class _Add_birdState extends State<Add_bird> {
     );
 
   }
-  _onTap(int index) {
-    setState(() {
-      selected_index=index;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,)));
-    });
-  }
+
 
 
   // Widget _drobbx(){

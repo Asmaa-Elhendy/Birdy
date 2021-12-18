@@ -1,6 +1,7 @@
 import 'package:birdy_app/view/screens/primary.dart';
 import 'package:birdy_app/view/screens/profile.dart';
 import 'package:flutter/material.dart';
+import 'daily_tasks.dart';
 
 class Dashboard extends StatefulWidget {
   static  const dashboardid='id';
@@ -17,7 +18,9 @@ class _DashboardState extends State<Dashboard> {
 
   final List<Widget> _children = [
     PrimaryPage(),
+    DailyTasks(),
     UserProfile(),
+
   ];
 
   @override
@@ -35,9 +38,14 @@ class _DashboardState extends State<Dashboard> {
 
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Daily tasks',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded,),
             label: 'profile',
           ),
+
         ],
 
       ),

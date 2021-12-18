@@ -1,12 +1,8 @@
 
 import 'package:birdy_app/view/screens/all_birds.dart';
-import 'package:birdy_app/view/screens/bird.dart';
-import 'package:birdy_app/view/screens/create_new_password.dart';
 import 'package:birdy_app/view/screens/room.dart';
 import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:flutter/material.dart';
-
-import 'cages.dart';
 
 class PrimaryPage extends StatefulWidget {
   const PrimaryPage({Key? key}) : super(key: key);

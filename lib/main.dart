@@ -1,4 +1,5 @@
 import 'package:birdy_app/controller/providers/cage_provider.dart';
+import 'package:birdy_app/controller/providers/dailytasks_provider.dart';
 import 'package:birdy_app/view/screens/dashboard.dart';
 import 'package:birdy_app/view/screens/forgetpassword.dart';
 import 'package:birdy_app/view/screens/login.dart';
@@ -20,15 +21,15 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
        ChangeNotifierProvider( create: (_)=>Rooms_Provider(),),
-        ChangeNotifierProvider( create: (_)=>CageProvider(),)
+        ChangeNotifierProvider( create: (_)=>CageProvider(),),
+        ChangeNotifierProvider(create: (_)=>DailyTasksProvider())
 
       ],
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Birdy',
         theme: ThemeData(
-
           primaryColor: Color(0xfff79281),
 
         ),
