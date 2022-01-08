@@ -22,7 +22,7 @@ class _DailyDateState extends State<DailyDate> {
             DatePicker(
               DateTime.now(),
               initialSelectedDate: DateTime.now(),
-              selectionColor: Colors.black,// Color(0xfff79281),
+              selectionColor:  Color(0xfff79281),
               selectedTextColor: Colors.white,
               onDateChange: (date) {
                 // New date selected

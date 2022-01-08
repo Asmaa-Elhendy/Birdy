@@ -4,9 +4,11 @@ import 'package:birdy_app/model/rooms_model.dart';
 import 'package:birdy_app/view/screens/all_birds.dart';
 import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:birdy_app/view/widgets/snack_bar_delete.dart';
+import 'package:birdy_app/view/widgets/weekday_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weekday_selector/weekday_selector.dart';
 
 import 'dashboard.dart';
 
@@ -131,37 +133,48 @@ class _CagesState extends State<Cages> {
                                     color: Color(0xfff79281),
                                   )))),
                       onPressed: () {
+
                         showDialog(
                           context: context,
                           builder: (BuildContext context) =>
                               AlertDialog(
                                 title:  Text('Add New Cage'),
-                                content: new Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      TextField(
+                                content: SingleChildScrollView(
+                                  child: new Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        TextField(
 
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
+                                            decoration: InputDecoration(
+                                              enabledBorder: const OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: Color(0xfff79281), width: 0.0),
+                                                  borderRadius: BorderRadius.all(Radius.circular(25))
+                                              ), focusedBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     color: Color(0xfff79281), width: 0.0),
                                                 borderRadius: BorderRadius.all(Radius.circular(25))
-                                            ), focusedBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xfff79281), width: 0.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(25))
-                                          ),
-                                          ),
+                                            ),
+                                            ),
 
-                                          onChanged: (value) {
+                                            onChanged: (value) {
 
-                                            setState(() {
+                                              setState(() {
 
-                                              newCageName = value;
-                                            });
-                                          }),
-                                    ]
+                                                newCageName = value;
+                                              });
+                                            }),
+                                        Text('Cleaning'),
+                                        CustomWeekdaySelector(task_name: 'cleaning',),
+                                        Text('Feeding'),
+                                        CustomWeekdaySelector(task_name: 'feeding',),
+                                        Text('Watering'),
+                                        CustomWeekdaySelector(task_name: 'watering',)
+
+
+                                      ]
+                                  ),
                                 ),
                                 actions: <Widget>[
 
@@ -325,10 +338,11 @@ class _CagesState extends State<Cages> {
   }
 
   Widget _buildPopupDialog(BuildContext context,CageProvider cageProvider, function,String title){
+
     return new AlertDialog(
       title:  Text(title),
       content: new Column(
-          mainAxisSize: MainAxisSize.min,
+        //  mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextField(
@@ -352,6 +366,7 @@ class _CagesState extends State<Cages> {
                     newName = value;
                   });
                 }),
+
           ]
       ),
       actions: <Widget>[
