@@ -1,4 +1,7 @@
+import 'package:birdy_app/controller/providers/cage_provider.dart';
 import 'package:birdy_app/controller/providers/rooms_provider.dart';
+import 'package:birdy_app/controller/room_db_connection.dart';
+import 'package:birdy_app/model/rooms_model.dart';
 import 'package:birdy_app/view/screens/cages.dart';
 import 'package:birdy_app/view/screens/primary.dart';
 import 'package:birdy_app/view/screens/profile.dart';
@@ -22,6 +25,16 @@ class _RoomsState extends State<Rooms> {
   late int cageCount =1;
   int selected_index=0;
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      Rooms_Provider rooms_provider = Provider.of<Rooms_Provider>(context,listen: false);
+
+      rooms_provider.getdatabase();
+    });
+  }
   final List<Widget> _children = [
     PrimaryPage(),
     UserProfile(),
@@ -29,6 +42,7 @@ class _RoomsState extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
+
     double width = MediaQuery
         .of(context)
         .size
@@ -115,15 +129,16 @@ class _RoomsState extends State<Rooms> {
             ), SizedBox(height: height * .01,),
             SizedBox(
                 height: height * .7,
-                child: ListView.builder(
+                child: rooms_provider.rooms.isEmpty?Center(child: Text('No Rooms ')):
+                ListView.builder(
                     itemCount: rooms_provider.rooms.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Cages()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Cages(room:rooms_provider.rooms[index])));
                         },
                         child: customListtile(
-                            width, height, rooms_provider.rooms[index].name,
+                            width, height, rooms_provider.rooms[index].roomName,
                             context, rooms_provider, index),
                       );
                     })
@@ -190,9 +205,13 @@ class _RoomsState extends State<Rooms> {
                 SizedBox(width: width * .03,),
                 GestureDetector(
                   onTap: (){
-                 ScaffoldMessenger.of(context).showSnackBar(Snack.SNackbarfun(context, (){
-                   rooms_provider.delete_room(rooms_provider.rooms[index].id);
-                 }));
+                 // ScaffoldMessenger.of(context).showSnackBar(Snack.SNackbarfun(context, (){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(  Snack.SNackbarfun(context, (){
+                      rooms_provider.delete_room(rooms_provider.rooms[index].id);
+                    }));
+
+                 // }));
                   },
                   child:Icon(Icons.delete_forever,color: Color(0xfff79281),),
 
@@ -204,14 +223,15 @@ class _RoomsState extends State<Rooms> {
   }
 
   Widget _buildPopupDialog(BuildContext context,Rooms_Provider rooms_provider,int index ){
+    TextEditingController namecontroller=TextEditingController();
+    namecontroller..text=rooms_provider.rooms[index].roomName;
     return new AlertDialog(
       title: const Text('Edit Room Name'),
       content: new Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TextField(
-
+            TextFormField(
                 decoration: InputDecoration(
               enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -222,7 +242,7 @@ class _RoomsState extends State<Rooms> {
                     color: Color(0xfff79281), width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(25))
             ),
-            ),
+            ),controller: namecontroller,
 
                 onChanged: (value) {
 
@@ -251,7 +271,7 @@ class _RoomsState extends State<Rooms> {
             ),new FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                rooms_provider.edit_room(rooms_provider.rooms[index].id, newName);
+                rooms_provider.edit_room(rooms_provider.rooms[index],newName);
                 setState(() {
                   newName='';
                 });
@@ -338,10 +358,12 @@ class _RoomsState extends State<Rooms> {
             ),new FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                rooms_provider.addRooms(roomName,cageCount);
+                rooms_provider.addRooms(Rooms_Model(roomName: roomName,cagesCount: cageCount),cageCount);
+                rooms_provider.getdatabase();
+
                 setState(() {
                   roomName='';
-                  cageCount=1;
+               //   cageCount=1;
 
                 });
                 print(cageCount);

@@ -1,7 +1,21 @@
 class Rooms_Model {
-  final String id;
-  final String name;
+  int id;
+  final String roomName;
   int cagesCount ;
 
-  Rooms_Model({required this.id, required this.name, this.cagesCount=1});
+  Rooms_Model({ this.id=0,required this.roomName, this.cagesCount=0});
+
+
+
+  Map<String,dynamic> room_to_map(){
+    var mapping = Map<String,dynamic>();
+
+    mapping['roomName']=roomName;
+    mapping['cagesCount']=cagesCount;
+
+    return mapping;
+  }
+
+
+
 }

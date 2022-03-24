@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 class DailyTasksCard extends StatefulWidget {
   String id;
   String taskName;
-  String description;
+  //String ?description ="";
   String place;
   bool isdone;
-  DailyTasksCard({required this.id,required this.taskName, required this.place, required this.description,required this.isdone});
+  DailyTasksCard({required this.id,required this.taskName,
+    //this.description,
+    required this.place,required this.isdone});
 
   @override
   _DailyTasksCardState createState() => _DailyTasksCardState();
@@ -104,7 +106,7 @@ class _DailyTasksCardState extends State<DailyTasksCard> {
               ),
 
              children: [
-               ListTile(title: Text(widget.description,
+               ListTile(title: Text("",
                  textAlign: TextAlign.center,
                  style: TextStyle(
                    color: Colors.grey

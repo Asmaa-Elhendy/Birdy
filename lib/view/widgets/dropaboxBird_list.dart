@@ -58,7 +58,7 @@ class _DrobListState extends State<DrobList> {
             onChanged: (  room) {
               setState(() {
                 this.selectedUser = room! ;
-                selectedRoomName=room.name;
+                selectedRoomName=room.roomName;
 
 
               });
@@ -68,7 +68,7 @@ class _DrobListState extends State<DrobList> {
                 value: room,
                 child: Row(
                   children: <Widget>[
-                    Text( room.name,
+                    Text( room.roomName,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor
                       ),

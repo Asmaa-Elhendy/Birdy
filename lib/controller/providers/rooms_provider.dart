@@ -1,70 +1,83 @@
+import 'package:birdy_app/controller/db/cages_database.dart';
+import 'package:birdy_app/controller/room_db_connection.dart';
+import 'package:birdy_app/model/cage_model.dart';
 import 'package:birdy_app/model/rooms_model.dart';
 import'package:flutter/material.dart';
 
 class Rooms_Provider with ChangeNotifier{
-  List<Rooms_Model> _rooms =[
-    Rooms_Model(
-        id: "1",
-        name: "Office Room",
-        cagesCount: 1
-    ),
-    Rooms_Model(
-      id: "2",
-      name: "Home Room",
-      cagesCount: 1,
-    ),
-    Rooms_Model(
-      id: "3",
-      name: "Home Room2",
-      cagesCount: 1,
-    ),
-  ];
-
-  List <Rooms_Model> get rooms{
+  List<Map<String,dynamic>> _roomsmap =[];
+ List<Rooms_Model> _rooms=[];
+ 
+ 
+ 
+  List<Rooms_Model> get rooms{
     return [..._rooms];  //copy list
   }
 
-  List<String> RoomsName (){
-    List<String> names = [];
-    for(int i =0; i<_rooms.length; i++){
-      names.add(rooms[i].name);
+  // List<String> RoomsName (){
+  //   List<String> names = [];
+  //   for(int i =0; i<_rooms.length; i++){
+  //     names.add(rooms[i].roomName);
+  //   }
+  //   print(names);
+  //   notifyListeners();
+  //
+  //   return names;
+  //
+  // }
+
+  getdatabase()async{
+  _roomsmap=  await DatabaseConnection.getRoomDatabase();
+  _rooms= _roomsmap.map((room) => Rooms_Model(id:room['id'],roomName: room['roomName'],cagesCount: room['cagesCount'])).toList();
+     notifyListeners();
     }
-    print(names);
-    notifyListeners();
 
-    return names;
 
-  }
-  addRooms(String name, int num){
-    if(name==""){
+  addRooms(Rooms_Model room, int cage_count) async {
+    if(room.roomName==""){
 
       return true;
     }
-    if(num==null){
-      num = 1;
+    if(room.cagesCount==null){
+      room.cagesCount = 1;
     }
-    final newRoom = Rooms_Model(id:  DateTime.now().toString(), name: name, cagesCount: num);
-    print("rooms cage is $num");
-    _rooms.add(newRoom);
+  int id=await DatabaseConnection.addRoom(room);
+    print(rooms);
+
+    if(cage_count>0){
+      for(int i=1;i<=cage_count;i++){
+        final newCage= Cage(cageName: "$i", room_id: id, birdNumbers: 0,feedingDays: "Monday tuesday wednesday thursday friday saturday sunday",cleaningDays: "Monday tuesday wednesday thursday friday saturday sunday",wateringDays: "Monday tuesday wednesday thursday friday saturday sunday");
+        await CagesDatabase.instance.create(newCage);
+      }
+    }
+
     notifyListeners();
-  }
 
-  edit_room(String id, String newName){
-    final roomIndex = _rooms.indexWhere((room) => room.id == id);
-    if(newName==''){
-      return true;
-    }
-    if(roomIndex >= 0){
-      _rooms[roomIndex] = Rooms_Model(id: id, name: newName,cagesCount: _rooms[roomIndex].cagesCount);
-      print(_rooms[roomIndex].cagesCount);
-      notifyListeners();
-    }else{
-      print('there is a mistake');
-    }
+
 
   }
-  void delete_room(String id){
-    _rooms.removeWhere((room) => room.id == id);
+
+  edit_room(Rooms_Model room, String newName){
+    DatabaseConnection().editroom(room, newName);
+    getdatabase();
+    notifyListeners();
+    // final roomIndex = _rooms.indexWhere((room) => room.id == id);
+    // if(newName==''){
+    //   return true;
+    // }
+    // if(roomIndex >= 0){
+    //  // _rooms[roomIndex] = Rooms_Model(id: id, name: newName,cagesCount: _rooms[roomIndex].cagesCount);
+    //   print(_rooms[roomIndex].cagesCount);
+    //   notifyListeners();
+    // }else{
+    //   print('there is a mistake');
+    // }
+
+  }
+  void delete_room(int id){
+   // _rooms.removeWhere((room) => room.id == id);
+    DatabaseConnection().deleteroom(id);
+    getdatabase();
     notifyListeners();
   }
 
