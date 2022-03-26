@@ -20,7 +20,7 @@ class CagesDatabase   {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-
+   print('cage ${path}');
     return await openDatabase(path, version: 1, onCreate: _createDB);
 
 
