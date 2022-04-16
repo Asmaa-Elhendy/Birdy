@@ -1,6 +1,8 @@
+import 'package:birdy_app/controller/providers/cage_provider.dart';
 import 'package:birdy_app/view/screens/language.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -13,6 +15,8 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  @override
+
   // var usrename;
   // bool islogin = false;
   // getPref() async{
@@ -32,6 +36,7 @@ class _UserProfileState extends State<UserProfile> {
   // }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SingleChildScrollView(

@@ -9,6 +9,9 @@ import 'package:birdy_app/view/screens/start.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'controller/providers/bird_provider.dart';
+import 'controller/providers/new_daily_task_controller.dart';
+import 'controller/providers/new_daily_task_controller_saved_to_db.dart';
 import 'controller/providers/rooms_provider.dart';
 
 void main() {
@@ -19,13 +22,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
        ChangeNotifierProvider( create: (_)=>Rooms_Provider(),),
         ChangeNotifierProvider( create: (_)=>CageProvider(),),
         ChangeNotifierProvider(create: (_)=>DailyTasksProvider()),
-        ChangeNotifierProvider(create: (_)=>Weekdays())
-
+        ChangeNotifierProvider(create: (_)=>Weekdays()),
+        ChangeNotifierProvider(create: (_)=>DailyTaskController()),
+        ChangeNotifierProvider(create: (context)=>BirdProvider()),
+        ChangeNotifierProvider(create: (_)=>DailyTaskControllerSavedToDB())
       ],
 
       child: MaterialApp(

@@ -25,15 +25,21 @@ class Rooms_Provider with ChangeNotifier{
   //   return names;
   //
   // }
-
+  getdatabasefortask(int i)async{
+    _roomsmap=  await DatabaseConnection.getRoomDatabase();
+    _rooms= _roomsmap.map((room) => Rooms_Model(id:room['id'],roomName: room['roomName'],cagesCount: room['cagesCount'])).toList();
+    notifyListeners();
+    return _rooms[i];
+  }
   getdatabase()async{
   _roomsmap=  await DatabaseConnection.getRoomDatabase();
   _rooms= _roomsmap.map((room) => Rooms_Model(id:room['id'],roomName: room['roomName'],cagesCount: room['cagesCount'])).toList();
      notifyListeners();
+     return _rooms;
     }
 
 
-  addRooms(Rooms_Model room, int cage_count) async {
+  addRooms(Rooms_Model room, int cage_count,String roomname) async {
     if(room.roomName==""){
 
       return true;
@@ -46,7 +52,7 @@ class Rooms_Provider with ChangeNotifier{
 
     if(cage_count>0){
       for(int i=1;i<=cage_count;i++){
-        final newCage= Cage(cageName: "$i", room_id: id, birdNumbers: 0,feedingDays: "Monday tuesday wednesday thursday friday saturday sunday",cleaningDays: "Monday tuesday wednesday thursday friday saturday sunday",wateringDays: "Monday tuesday wednesday thursday friday saturday sunday");
+        final newCage= Cage(cageName: "$i", room_id: id, birdNumbers: 0,feedingDays: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",cleaningDays: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",wateringDays: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",roomName: roomname);
         await CagesDatabase.instance.create(newCage);
       }
     }

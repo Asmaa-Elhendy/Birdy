@@ -1,3 +1,4 @@
+import 'package:birdy_app/model/new_daily_task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:birdy_app/controller/providers/dailytasks_provider.dart';
 import 'package:provider/provider.dart';
@@ -5,12 +6,13 @@ import 'package:provider/provider.dart';
 class DailyTasksCard extends StatefulWidget {
   String id;
   String taskName;
+  List<NewDailyTask> cagestoday_tasks=[];
   //String ?description ="";
   String place;
   bool isdone;
-  DailyTasksCard({required this.id,required this.taskName,
+  DailyTasksCard({required this.id,required this.taskName,required this.cagestoday_tasks,
     //this.description,
-    required this.place,required this.isdone});
+     this.place='',required this.isdone});
 
   @override
   _DailyTasksCardState createState() => _DailyTasksCardState();
@@ -98,7 +100,7 @@ class _DailyTasksCardState extends State<DailyTasksCard> {
             ],
           ),
           subtitle:
-              Text(widget.place,
+              Text(widget.cagestoday_tasks.first.roomName,
                 style: TextStyle(
                     color: Colors.grey[600],
                   fontSize: 16
@@ -106,11 +108,17 @@ class _DailyTasksCardState extends State<DailyTasksCard> {
               ),
 
              children: [
-               ListTile(title: Text("",
-                 textAlign: TextAlign.center,
-                 style: TextStyle(
-                   color: Colors.grey
-                 ),
+               ListTile(title:Column(
+
+              children: widget.cagestoday_tasks.map((taskforcage) {
+                     return  Text(taskforcage.cageName,
+                       textAlign: TextAlign.center,
+                       style: TextStyle(
+                           color: Colors.grey
+                       ),
+
+                     );
+                   }).toList()
 
                )),
              ],

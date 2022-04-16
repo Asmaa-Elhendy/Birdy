@@ -6,8 +6,7 @@ class DatabaseConnection{
 
  static Future<Database> setRoomDatabase()async{
     var directory=await getDatabasesPath();
-     String path=join(directory,'room.db');
-     print(path);
+     String path=join(directory,'room.db');  
      var database= await openDatabase(path,version: 1,onCreate: _oncreate);
      return database;
 
@@ -15,6 +14,7 @@ class DatabaseConnection{
 
  static _oncreate(Database database,int version)async{
    await database.execute("CREATE TABLE rooms(id INTEGER PRIMARY KEY AUTOINCREMENT,roomName TEXT,cagesCount INTEGER)");
+   await database.execute("CREATE TABLE daily_tasks(id INTEGER PRIMARY KEY AUTOINCREMENT,taskName TEXT,roomId INTEGER,roomName TEXT,cageId INTEGER,cageName TEXT,isdone INTEGER,day INTEGER,month INTEGER,year INTEGER)");
    
  }
 

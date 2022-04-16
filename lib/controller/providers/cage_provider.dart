@@ -6,6 +6,7 @@ class CageProvider extends ChangeNotifier{
   List<Cage> _cages=[];
 
   List<Cage> _needCages=[];
+  List<Cage> _usedCageinDrop=[];
 
   List<Cage> get cages{
     return [..._cages];
@@ -13,16 +14,21 @@ class CageProvider extends ChangeNotifier{
   List<Cage> get need{
     return [..._needCages];
   }
+  List<Cage> get usedCageInDrop{
+    return [..._usedCageinDrop];
+  }
+  List<Cage> allcagesfortasks=[];
 
 
-  Future readAllCages (int roomid)async {
-   //List<Cage> allcages =[];
-   List<Cage> allcages = await CagesDatabase.instance.readAllCages();
-   _cages = allcages;
-   getRoomCage(roomid, cages);
+
+  Future readAllCages ()async {
+    //List<Cage> allcages =[];
+    List<Cage> allcages = await CagesDatabase.instance.readAllCages();
+    _cages = allcages;
+    //getRoomCage(roomid, cages);
 
 
-  // return allcages;
+    // return allcages;
   }
 
 
@@ -34,38 +40,52 @@ class CageProvider extends ChangeNotifier{
   }
 
 
-    getRoomCage(int roomid,List allCages)
-   {
+  Future<List<Cage>>getRoomCage(int roomid) async {
     //readAllCages();
-    List<Cage> cage=[];
+    List<Cage> cages= await CagesDatabase.instance.readCageByRoomId(roomid);
+    _needCages = cages;
 
-    if(allCages.isNotEmpty) {
-      for (int i = 0; i < allCages.length; i++) {
-        if (allCages[i].room_id == roomid) {
-          cage.add(allCages[i]);
-        }
-      }
-    }
-    _needCages = cage;
+    // if(allCages.isNotEmpty) {
+    //   for (int i = 0; i < allCages.length; i++) {
+    //     if (allCages[i].room_id == roomid) {
+    //       cage.add(allCages[i]);
+    //     }
+    //   }
+    // }
     notifyListeners();
 
-    }
-    // List<Cage> allCages = await CagesDatabase.instance.readAllCages();
-    // List cageroom = [];
-    // for(int i =0;i<allCages.length;i++) {
-    //   if (allCages[i].room_id == roomid) {
-    //     cageroom.add(allCages[i]);
-    //   }
-    //}
-      //notifyListeners();
-      //return cageroom;
+    return _needCages;
+
+
+  }
+
+  Future<List<Cage>>getCageForDrop(int roomid) async {
+    //readAllCages();
+    List<Cage> cages= await CagesDatabase.instance.readCageByRoomId(roomid);
+    _usedCageinDrop = cages;
+    notifyListeners();
+
+    return _usedCageinDrop;
+
+
+  }
+
+  // List<Cage> allCages = await CagesDatabase.instance.readAllCages();
+  // List cageroom = [];
+  // for(int i =0;i<allCages.length;i++) {
+  //   if (allCages[i].room_id == roomid) {
+  //     cageroom.add(allCages[i]);
+  //   }
+  //}
+  //notifyListeners();
+  //return cageroom;
 
 
 
   //}
 
-  Future addCage(String name,int roomid,int birdnum,cleaning,feeding,watering ) async{
-    final newCage= Cage(cageName: name, room_id: roomid, birdNumbers: birdnum,feedingDays: feeding,cleaningDays: cleaning,wateringDays: watering);
+  Future addCage(String name,int roomid,int birdnum,cleaning,feeding,watering,roomName ) async{
+    final newCage= Cage(cageName: name, room_id: roomid, birdNumbers: birdnum,feedingDays: feeding,cleaningDays: cleaning,wateringDays: watering,roomName: roomName);
     await CagesDatabase.instance.create(newCage);
     print("newcage in add name ${newCage.cageName}, tasks feed${newCage.feedingDays},water ${newCage.wateringDays}, clean${newCage.cleaningDays}");
 
@@ -95,22 +115,30 @@ class CageProvider extends ChangeNotifier{
     notifyListeners();
 
 
-      // final cageindex = _cages.indexWhere((cage) => cage.id == id);
-      // if(newname==''){
-      //   return true;
-      // }
-      // if(cageindex >= 0){
-      //   _cages[cageindex] = Cage(id: id, cageName: newname);
-      //   notifyListeners();
-      // }else{
-      //   print('there is a mistake');
-      // }
+    // final cageindex = _cages.indexWhere((cage) => cage.id == id);
+    // if(newname==''){
+    //   return true;
+    // }
+    // if(cageindex >= 0){
+    //   _cages[cageindex] = Cage(id: id, cageName: newname);
+    //   notifyListeners();
+    // }else{
+    //   print('there is a mistake');
+    // }
+  }
+  getcagesDatabase()async{
+    allcagesfortasks = await CagesDatabase.instance.readAllCages();
+    print(allcagesfortasks);
+    return allcagesfortasks;
+    notifyListeners();
   }
 
-  deleteCage(int id) async{
-   await CagesDatabase.instance.delete(id);
 
-   // _cages.removeWhere((cage) => cage.id==id);
+
+  deleteCage(int id) async{
+    await CagesDatabase.instance.delete(id);
+
+    // _cages.removeWhere((cage) => cage.id==id);
     notifyListeners();
- }
+  }
 }

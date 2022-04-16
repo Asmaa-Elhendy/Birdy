@@ -24,6 +24,7 @@ class _DailyDateState extends State<DailyDate> {
               initialSelectedDate: DateTime.now(),
               selectionColor:  Color(0xfff79281),
               selectedTextColor: Colors.white,
+
               onDateChange: (date) {
                 // New date selected
                 setState(() {

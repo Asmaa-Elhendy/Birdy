@@ -1,8 +1,13 @@
 
+import 'package:birdy_app/controller/providers/cage_provider.dart';
+import 'package:birdy_app/controller/providers/new_daily_task_controller.dart';
+import 'package:birdy_app/controller/providers/new_daily_task_controller_saved_to_db.dart';
 import 'package:birdy_app/view/screens/all_birds.dart';
+import 'package:birdy_app/view/screens/daily_tasks.dart';
 import 'package:birdy_app/view/screens/room.dart';
 import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryPage extends StatefulWidget {
   const PrimaryPage({Key? key}) : super(key: key);
@@ -67,6 +72,8 @@ class _PrimaryPageState extends State<PrimaryPage> {
                     },
                     child: container_listview(width, hight, 'Bird','assets/images/dove.png'),
                   ),
+
+
 
                 ],
               ),

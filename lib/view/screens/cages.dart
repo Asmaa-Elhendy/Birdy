@@ -1,4 +1,4 @@
-import 'package:birdy_app/controller/db/cages_database.dart';
+import 'package:birdy_app/controller/providers/bird_provider.dart';
 import 'package:birdy_app/controller/providers/cage_provider.dart';
 import 'package:birdy_app/controller/providers/rooms_provider.dart';
 import 'package:birdy_app/model/cage_model.dart';
@@ -30,7 +30,7 @@ class _CagesState extends State<Cages> {
   List<bool> oldIspressedWatering =[false, false, false, false, false, false, false];
 
   List days = ["M", "T", "W", "T", "F", "S", "S"];
-  List daysWord =["Monday", "tuesday","wednesday","thursday","friday","saturday","sunday"];
+  List daysWord =["Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
   List cleaningDaysSelected = [];
   List feedingDaysSelected = [];
   List wateringDaysSelected = [];
@@ -40,11 +40,26 @@ class _CagesState extends State<Cages> {
   var selectedUser;
   late String selectedRoomName;
   int selected_index = 0;
+  @override
+  void initState() {
+    CageProvider cages_provider = Provider.of<CageProvider>(context,listen: false);
+    cages_provider.getRoomCage(widget.room.id);
+
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
      CageProvider cages_provider = Provider.of<CageProvider>(context);
-    cages_provider.readAllCages(widget.room.id);
+     cages_provider.getRoomCage(widget.room.id);
+
+     // cages_provider.readAllCages(widget.room.id);
 
       TextEditingController cageNameController = TextEditingController();
 
@@ -245,7 +260,7 @@ class _CagesState extends State<Cages> {
                                                  clean =  joinFunc(cleaningDaysSelected);
                                                  print("feed is $feed,water is $water,clean is $clean");
 
-                                                 await cages_provider.addCage(cageNameController.text, widget.room.id, 0, clean, feed, water);
+                                                 await cages_provider.addCage(cageNameController.text, widget.room.id, 0, clean, feed, water,widget.room.roomName);
 
                                                  setState((){
 
@@ -285,8 +300,14 @@ class _CagesState extends State<Cages> {
                         onTap: () {
                           Navigator.of(context).push(createRoute(AllBirds(
                             exist_bar: true,
+                            cage:  cages_provider.need[index] ,
+                            room: widget.room,
                           )));
-                        },
+                        //       .then((value) => setState(() {
+                        //     //Provider. of<CageProvider>(context,listen: false). dispose();
+                        //
+                        //   }));
+                         },
                         child: customListtile(
                             width,
                             height,
@@ -330,13 +351,12 @@ class _CagesState extends State<Cages> {
 
   _onTap(int index) {
     setState(() {
-      selected_index = index;
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Dashboard(
-                    selected_index: selected_index,
-                  )));
+      selected_index=index;
+      if(selected_index==1){
+        CageProvider cageProvider =Provider.of<CageProvider>(context,listen: false);
+        cageProvider.getcagesDatabase();
+      }
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,)));
     });
   }
 
@@ -419,7 +439,7 @@ class _CagesState extends State<Cages> {
                 radius: 24,
                 child: Text(
                   //
-                  "0",
+                  cageProvider.need[index].birdNumbers.toString(),
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -515,7 +535,11 @@ class _CagesState extends State<Cages> {
                 feed =  joinFunc(feedingDaysSelected);
                 clean =  joinFunc(cleaningDaysSelected);
                 print("feed is $feed,water is $water,clean is $clean");
-                Cage newCage = Cage(cageName: oldName, cleaningDays: clean, feedingDays: feed, wateringDays: water, room_id: roomId,birdNumbers: birdNum,id: id);
+                Cage newCage = Cage(cageName: oldName, cleaningDays: clean,
+                    feedingDays: feed,
+                    wateringDays: water,
+                    room_id: roomId,birdNumbers: birdNum,
+                    id: id,roomName: widget.room.roomName);
                 cageProvider.editCage(newCage);
                 Navigator.of(context).pop(context);
 

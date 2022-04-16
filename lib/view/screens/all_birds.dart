@@ -1,11 +1,18 @@
+import 'package:birdy_app/controller/db/cages_database.dart';
+import 'package:birdy_app/controller/providers/bird_provider.dart';
+import 'package:birdy_app/controller/providers/cage_provider.dart';
+import 'package:birdy_app/controller/providers/rooms_provider.dart';
+import 'package:birdy_app/controller/room_db_connection.dart';
 import 'package:birdy_app/model/additional_task_model.dart';
+import 'package:birdy_app/model/cage_model.dart';
+import 'package:birdy_app/model/rooms_model.dart';
 import 'package:birdy_app/view/screens/bird.dart';
 import 'package:birdy_app/view/widgets/animated_page_route.dart';
 import 'package:birdy_app/view/widgets/card_bird.dart';
-import 'package:birdy_app/view/widgets/daily_date.dart';
 import 'package:birdy_app/view/widgets/datepicker_calender.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'daily_tasks.dart';
 import 'dashboard.dart';
@@ -13,8 +20,13 @@ import 'edit_additional_task.dart';
 
 class AllBirds extends StatefulWidget {
   static ValueNotifier<String> dateTime = ValueNotifier("");
-  bool exist_bar=true;
-  AllBirds({required this.exist_bar});
+
+
+  bool exist_bar = true;
+  Cage? cage;
+  Rooms_Model? room;
+
+  AllBirds({required this.exist_bar, this.cage, this.room});
 
   @override
   _AllBirdsState createState() => _AllBirdsState();
@@ -30,6 +42,7 @@ class _AllBirdsState extends State<AllBirds> {
   var selectValue;
   List<bool> ispressed = [false, false, false, false, false, false, false];
   List days = ["M", "T", "W", "T", "F", "S", "S"];
+
   static List<AdditionalTask_model> additional_task=[
     AdditionalTask_model(
         id: "1",
@@ -56,6 +69,47 @@ class _AllBirdsState extends State<AllBirds> {
   ];
   String appointment="";
   final newTaskName = TextEditingController();
+ // _cageProvider = Provider. of<CageProvider>(context,listen: false);
+
+  // @override
+  // void afterFirstLayout(BuildContext context) {
+  //   CageProvider  _cageProvider = Provider.of<CageProvider>(context, listen: false);
+  //   Rooms_Provider _romsProv=  Provider. of<Rooms_Provider>(context,listen: false);
+  //   BirdProvider  _birdsprov =     Provider. of<BirdProvider>(context,listen: false);
+  //
+  //
+  // }
+
+
+  @override
+  void initState() {
+    BirdProvider birdsProvider = Provider.of<BirdProvider>(context,listen: false);
+    if(widget.exist_bar){
+      birdsProvider.readBirdByCage(widget.cage?.id);
+    }else{
+      birdsProvider.readAllBirds();
+    }
+
+
+
+    super.initState();
+  }
+
+  // @override
+  // void dispose() {
+  //   CagesDatabase.instance.close();
+  //
+  //   super.dispose();
+  // }
+  // @override
+  // void dispose() {
+  //   _cageProvider.
+  //   // Provider. of<CageProvider>(context,listen: false). cl();
+  //   // Provider. of<Rooms_Provider>(context,listen: false). dispose();
+  //   // Provider. of<BirdProvider>(context,listen: false). dispose();
+  //     super.dispose();
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,36 +121,49 @@ class _AllBirdsState extends State<AllBirds> {
         .of(context)
         .size
         .height;
+    BirdProvider birdsProvider = Provider.of<BirdProvider>(context);
+
+
+
+
+
     return Scaffold(
-    bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor:Color(0xfff79281) ,
-    currentIndex: selected_index,
-    onTap: _onTap,
-    items: <BottomNavigationBarItem> [
-    BottomNavigationBarItem(
-    icon: Icon(Icons.home,),
-    label: 'Home',
-
-    ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.event),
-        label: 'Daily tasks',
-      ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.account_circle_rounded,),
-    label: 'profile',
-    ),
-    ],
-
-    ),
-      floatingActionButton: FloatingActionButton(
+    // bottomNavigationBar: BottomNavigationBar(
+    //     selectedItemColor:Color(0xfff79281) ,
+    // currentIndex: selected_index,
+    // onTap: _onTap,
+    // items: <BottomNavigationBarItem> [
+    // BottomNavigationBarItem(
+    // icon: Icon(Icons.home,),
+    // label: 'Home',
+    //
+    // ),
+    //   BottomNavigationBarItem(
+    //     icon: Icon(Icons.event),
+    //     label: 'Daily tasks',
+    //   ),
+    // BottomNavigationBarItem(
+    // icon: Icon(Icons.account_circle_rounded,),
+    // label: 'profile',
+    // ),
+    // ],
+    //
+    // ),
+     floatingActionButton:  widget.exist_bar?FloatingActionButton(
         onPressed: (){
-          Navigator.of(context).push(createRoute(Add_bird(widget.exist_bar)));
+          Navigator.of(context).pushReplacement(createRoute(Add_bird(cage_room_detected: widget.exist_bar,cage: widget.cage!,room: widget.room!)));
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xfff79281),
         tooltip: 'add bird',
-      ),
+      ):FloatingActionButton(
+       onPressed: (){
+         Navigator.of(context).pushReplacement(createRoute(Add_bird(cage_room_detected: false,)));
+       },
+       child: Icon(Icons.add),
+       backgroundColor: Color(0xfff79281),
+       tooltip: 'add bird',
+     ),
       body: Container(
         height: height,
         padding: EdgeInsets.only(top: height*0.07),
@@ -119,7 +186,7 @@ class _AllBirdsState extends State<AllBirds> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0xfff79281).withOpacity(0.3),
                       ),
-                      child: Center(child: Text("room2, cage1",
+                      child: Center(child: Text("Room:${widget.room!.roomName}  &  Cage:${widget.cage!.cageName}",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w900,
@@ -172,9 +239,9 @@ class _AllBirdsState extends State<AllBirds> {
                 child: SizedBox(height:widget.exist_bar? height*.58:height*.67,child:
 
                   ListView.builder(
-                    itemCount: 15,
+                    itemCount:widget.exist_bar? birdsProvider.needBirds.length: birdsProvider.birds.length,
                     itemBuilder:(BuildContext context,int index) {
-                      return Card_bird(BirdName: "Canary");
+                      return Card_bird(bird: widget.exist_bar? birdsProvider.needBirds[index]: birdsProvider.birds[index],birdsProvider: birdsProvider,exist_bar: widget.exist_bar,cage: widget.cage,room: widget.room,);
                     },
 
 
@@ -191,12 +258,27 @@ class _AllBirdsState extends State<AllBirds> {
 
     );
   }
-  _onTap(int index) {
-    setState(() {
-      selected_index=index;
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,)));
-    });
-  }
+  // _onTap(int index) {
+  //   CageProvider  _cageProvider = Provider.of<CageProvider>(context, listen: false);
+  //   Rooms_Provider _romsProv=  Provider. of<Rooms_Provider>(context,listen: false);
+  //   BirdProvider  _birdsprov =     Provider. of<BirdProvider>(context,listen: false);
+  //   setState(() {
+  //     selected_index=index;
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,))).then((value) {
+  //      // setState(() {
+  //         _cageProvider.dispose();
+  //         _romsProv.dispose();
+  //         _birdsprov.dispose();
+  //         CagesDatabase.instance.close();
+  //       // Provider. of<CageProvider>(context,listen: false). dispose();
+  //         // Provider. of<Rooms_Provider>(context,listen: false). dispose();
+  //         // Provider. of<BirdProvider>(context,listen: false). dispose();
+  //
+  //       //});
+  //
+  //     });
+  //   });
+  // }
 
   alert_to_add_task() {
     return showDialog(
@@ -491,7 +573,7 @@ class _AllBirdsState extends State<AllBirds> {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.grey[300],
-            border: (Border.all(color: Theme.of(context).primaryColor)),
+            //border: (Border.all(color: Theme.of(context).primaryColor)),
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.shade600,

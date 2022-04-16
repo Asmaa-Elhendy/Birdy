@@ -170,6 +170,10 @@ class _RoomsState extends State<Rooms> {
   _onTap(int index) {
     setState(() {
       selected_index=index;
+    if(selected_index==1){
+      CageProvider cageProvider =Provider.of<CageProvider>(context,listen: false);
+      cageProvider.getcagesDatabase();
+    }
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Dashboard(selected_index: selected_index,)));
     });
   }
@@ -358,11 +362,12 @@ class _RoomsState extends State<Rooms> {
             ),new FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                rooms_provider.addRooms(Rooms_Model(roomName: roomName,cagesCount: cageCount),cageCount);
+                rooms_provider.addRooms(Rooms_Model(roomName: roomName,cagesCount: cageCount),cageCount,roomName);
                 rooms_provider.getdatabase();
 
                 setState(() {
                   roomName='';
+                  cageCount=1;
                //   cageCount=1;
 
                 });

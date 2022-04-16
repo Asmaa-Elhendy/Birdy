@@ -3,7 +3,7 @@ final String tableCages = 'cages';
 class CagesFields{
   static final List<String> values = [
     /// Add all fields
-    id, room_id, cageName, birdNumbers, cleaningDays, feedingDays,wateringDays
+    id, room_id, cageName, birdNumbers, cleaningDays, feedingDays,wateringDays,roomName
   ];
 
   static final String id = "_id";
@@ -13,6 +13,7 @@ class CagesFields{
   static final String cleaningDays = "cleaningDays";
   static final String feedingDays = "feedingDays";
   static final String wateringDays = "wateringDays";
+  static final String roomName = "roomName";
 }
 
 
@@ -24,8 +25,9 @@ class Cage{
    String cleaningDays;
    String feedingDays;
    String wateringDays;
+   String roomName;
 
- Cage({ this.id,required this.cageName,  this.birdNumbers=0,required this.cleaningDays,required this.feedingDays,required this.wateringDays,required this.room_id});
+ Cage({ this.id,required this.cageName,  this.birdNumbers=0,required this.cleaningDays,required this.feedingDays,required this.wateringDays,required this.room_id,required this.roomName});
 
    Cage copy({
      int? id,
@@ -35,6 +37,7 @@ class Cage{
      String? cleaningDays,
      String? feedingDays,
      String? wateringDays,
+     String?roomName
    }) {
      print("id creet${id}");
 
@@ -45,7 +48,8 @@ class Cage{
          birdNumbers: birdNumbers ?? this.birdNumbers,
          cleaningDays: cleaningDays ?? this.cleaningDays,
          feedingDays: feedingDays ?? this.feedingDays,
-         wateringDays: wateringDays ?? this.wateringDays
+         wateringDays: wateringDays ?? this.wateringDays,
+         roomName: roomName??this.roomName
 
      );
    }
@@ -58,6 +62,7 @@ class Cage{
      CagesFields.cleaningDays: cleaningDays,
      CagesFields.feedingDays: feedingDays,
      CagesFields.wateringDays: wateringDays,
+     CagesFields.roomName:roomName
    };
 
    static Cage fromJson(Map<String, Object?> json) => Cage(
@@ -68,6 +73,7 @@ class Cage{
      cleaningDays:  json[CagesFields.cleaningDays] as String,
      feedingDays:  json[CagesFields.feedingDays] as String,
      wateringDays:  json[CagesFields.wateringDays] as String,
+     roomName: json[CagesFields.roomName] as String,
 
    );
 
