@@ -28,10 +28,7 @@ class DailyTaskController extends ChangeNotifier {
   List<NewDailyTask> get getdisplayedwater{
     return [...displayedwatering];  //copy list
   }
-//get lists after remove saved to db
-  List<NewDailyTask> cleanlistafterremove=[];
-  List<NewDailyTask> feedlistafterremove=[];
-  List<NewDailyTask> waterlistafterremove=[];
+
   getall_cagesfunction() async {
     all_cages = await CagesDatabase.instance.readAllCages();
     notifyListeners();
@@ -176,6 +173,7 @@ getnew(allcagesprovider,String today){
     print('new displayed clean$displayedclean_new');
     print('new displayed feed$displayedfeed_new');
     print('new displayed water$displayedwatering_new');
+
     notifyListeners();
 }
 

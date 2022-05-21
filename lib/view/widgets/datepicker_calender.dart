@@ -1,4 +1,5 @@
 import 'package:birdy_app/view/screens/all_birds.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
@@ -62,7 +63,7 @@ class _DatePickerState extends State<DatePicker> {
                 setState(() {
                   _dateTime = date;
                  // String formattedDate = DateFormat('yyyy-MM-dd').format(_dateTime);
-                  AllBirds.dateTime.value ="${_dateTime!.day}/${_dateTime!.month}/${_dateTime!.year}";
+                  AllBirds.dateTime.value ="${_dateTime?.day}/${_dateTime?.month}/${_dateTime?.year}";
                 });
               });
 
@@ -72,10 +73,10 @@ class _DatePickerState extends State<DatePicker> {
             color: Colors.grey,
             thickness: 0.5
           ),
-          SizedBox(
-            width: width * 0.03,
-          ),
-          _dateTime==null?Text(""):Text("${_dateTime!.day}/${_dateTime!.month}/${_dateTime!.year}",
+          // SizedBox(
+          //   width: width * 0.01,
+          // ),
+          _dateTime==null?Text("- - -",textAlign: TextAlign.center,):Text("${_dateTime?.day}/${_dateTime?.month}/${_dateTime?.year}",
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.normal,

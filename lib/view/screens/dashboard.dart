@@ -70,10 +70,9 @@ class _DashboardState extends State<Dashboard> {
       DailyTaskController dailyTaskControllerprovider=Provider.of<DailyTaskController>(context,listen: false);
       CageProvider cageProvider =Provider.of<CageProvider>(context,listen: false);
 
-      dailyTaskControllerprovider.getnew(cageProvider.allcagesfortasks,'Wednesday');
 
       dailyTaskControllerSavedToDB.getdb();
-
+      dailyTaskControllerprovider.getnew(cageProvider.allcagesfortasks,DateFormat('EEEE').format(DateTime.now()));
       for(var i in dailyTaskControllerSavedToDB.saved_list){
         print(i.day==DateTime.now().day);
         if(i.day==DateTime.now().day&&i.month==DateTime.now().month&&i.year==DateTime.now().year){

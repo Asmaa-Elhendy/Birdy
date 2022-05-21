@@ -59,7 +59,6 @@ class _CagesState extends State<Cages> {
      CageProvider cages_provider = Provider.of<CageProvider>(context);
      cages_provider.getRoomCage(widget.room.id);
 
-     // cages_provider.readAllCages(widget.room.id);
 
       TextEditingController cageNameController = TextEditingController();
 
@@ -377,10 +376,10 @@ class _CagesState extends State<Cages> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${name}'),
+                    Expanded(child: Text('${name}')),
                     Row(
                       children: [
-                        InkWell(
+                     InkWell(
                           onTap: ()async {
                             Cage cageToEdit = await cageProvider.getCage(cageProvider.need[index].id!);
 
@@ -412,7 +411,22 @@ class _CagesState extends State<Cages> {
                         SizedBox(
                           width: width * .03,
                         ),
-                        GestureDetector(
+                        cageProvider.need[index].birdNumbers>0?
+                       GestureDetector(
+                         onTap: (){
+                           const snackBar = SnackBar(
+                             content: Text('You Can not delete this cage, it contains birds'),
+                           );
+                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                         },
+                         child: Icon(
+                           Icons.delete_forever,
+                           color: Colors.grey[350]
+                         ),
+
+                       )
+
+                        :GestureDetector(
                           onTap: () {
 
                             ScaffoldMessenger.of(context)

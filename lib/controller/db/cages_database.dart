@@ -46,9 +46,16 @@ CREATE TABLE $tableCages (
 
   )
 ''');
-    await db.execute(
+
+
+
+  await db.execute(
         "CREATE TABLE birds(_id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,type TEXT,color TEXT,ringNum INTEGER,age INTEGER,image BLOB,ringType TEXT,gender TEXT,breed TEXT,roomId INTEGER,cageId INTEGER,roomName TEXT,cageName TEXT)");
+
+    await db.execute(
+        "CREATE TABLE AdditionalTasks(_id INTEGER PRIMARY KEY AUTOINCREMENT,taskName TEXT,roomName TEXT,cageName TEXT,cageId INTEGER,roomId INTEGER,appointment TEXT, isDone BOOLEAN NOT NULL)");
   }
+
 
   Future<Cage> create(Cage cage) async {
     final db = await instance.database;
@@ -173,8 +180,8 @@ CREATE TABLE $tableCages (
 
 
 
-    return result.map((json) => Bird.fromJson(json))
-        .toList(); //convert back fron json
+      return result.map((json) => Bird.fromJson(json))
+          .toList(); //convert back fron json
   }
   Future<int> deleteBird(int id) async {
     final db = await instance.database;

@@ -10,7 +10,6 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:birdy_app/view/widgets/daily_tasks_card.dart';
 import 'package:birdy_app/controller/providers/dailytasks_provider.dart';
 import 'package:intl/intl.dart';
 
@@ -39,7 +38,8 @@ class _DailyTasksState extends State<DailyTasks> with WidgetsBindingObserver {
     super.initState();
     today_day=DateFormat('EEEE').format(today);
     print('today $today_day');
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+
+  //  WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       DailyTaskControllerSavedToDB dailyTaskControllerSavedToDB=Provider.of<DailyTaskControllerSavedToDB>(context,listen: false);
 
       for(var i in dailyTaskControllerSavedToDB.saved_list){
@@ -70,7 +70,7 @@ class _DailyTasksState extends State<DailyTasks> with WidgetsBindingObserver {
       //
       // }taskName
 
-    });
+  //  });
 
 
   }
@@ -113,23 +113,23 @@ class _DailyTasksState extends State<DailyTasks> with WidgetsBindingObserver {
 
 
 
-    Widget getDailyTasks_widget( )
-    {
-      return Column(children:  dailyTasks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks: [],place: item.place,isdone: item.isDone,)).toList());
-    }
-    Widget getDoneTasks_widget( )
-    {
-      return Column(children:  doneTasks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks:[],place: item.place,isdone: item.isDone,)).toList());
-    }
-    Widget getAdditionaltasks_widget( )
-    {
-      // return ValueListenableBuilder(valueListenable: DailyTasks.additionalTasks,
-      //     builder: ( context,List newValue,Widget child){
-      //   return Column(children: newValue.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,description: item.description,place: item.place,isdone: item.isDone,)).toList());;
-      //     }
-      // );
-     return Column(children:  addTaks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks:[],place: "${item.room},${item.cage}",isdone: item.isDone,)).toList());
-    }
+    // Widget getDailyTasks_widget( )
+    // {
+    //   return Column(children:  dailyTasks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks: [],place: item.place,isdone: item.isDone,)).toList());
+    // }
+    // Widget getDoneTasks_widget( )
+    // {
+    //   return Column(children:  doneTasks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks:[],place: item.place,isdone: item.isDone,)).toList());
+    // }
+    // Widget getAdditionaltasks_widget( )
+    // {
+    //   // return ValueListenableBuilder(valueListenable: DailyTasks.additionalTasks,
+    //   //     builder: ( context,List newValue,Widget child){
+    //   //   return Column(children: newValue.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,description: item.description,place: item.place,isdone: item.isDone,)).toList());;
+    //   //     }
+    //   // );
+    //  return Column(children:  addTaks.map((item) => DailyTasksCard(id: item.id,taskName: item.taskName,cagestoday_tasks:[],place: "${item.room},${item.cage}",isdone: item.isDone,)).toList());
+    // }
 
       return Scaffold(
         body: ListView(
@@ -371,7 +371,7 @@ class _DailyTasksState extends State<DailyTasks> with WidgetsBindingObserver {
                   fontSize: 20
               ),
             ),
-            getAdditionaltasks_widget(),
+         //   getAdditionaltasks_widget(),
             SizedBox(height: height * 0.02,),
 
       selectd_date_time.day==DateTime.now().day&&selectd_date_time.month==DateTime.now().month&&selectd_date_time.year==DateTime.now().year?
@@ -410,8 +410,7 @@ class _DailyTasksState extends State<DailyTasks> with WidgetsBindingObserver {
         ),
       );
 
-
-
   }
+
 
 }

@@ -45,7 +45,7 @@ class Rooms_Provider with ChangeNotifier{
       return true;
     }
     if(room.cagesCount==null){
-      room.cagesCount = 1;
+      room.cagesCount = 0;
     }
   int id=await DatabaseConnection.addRoom(room);
     print(rooms);

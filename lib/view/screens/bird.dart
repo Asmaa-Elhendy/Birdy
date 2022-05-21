@@ -340,13 +340,6 @@ class _Add_birdState extends State<Add_bird> {
                                       MediaQuery.of(context).size.height * 0.07,
                                   child: RaisedButton(
                                     onPressed: () {
-                                      //print("room is$roomName");
-                                      // if(selectedUserRoom ==null||selectedUserCage == null){
-                                      //   Scaffold.of(context).showSnackBar(SnackBar(
-                                      //     content: Text('I am a snack bar!'),
-                                      //   ));
-                                      //
-                                      // }else {
                                         if (_formKey.currentState!.validate()) {
                                           String? im;
                                           if (imageFile != null) {
@@ -407,13 +400,16 @@ class _Add_birdState extends State<Add_bird> {
                                             selectedUserRoom = null;
                                             selectedUserCage = null;
                                           });
-                                          SnackBar(
-                                            content: Text(
-                                                "your bird is added successfully"),
-                                            backgroundColor: (Colors.black12),
-                                          );
+
                                           //print(birdTypeConroller.text);
                                           //print(birdB)
+                                          const snackBar = SnackBar(
+                                            content: Text('Your Bird is added successfully '),
+                                          );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                           widget.cage_room_detected
                                               ? Navigator.pushReplacement(
                                               context,

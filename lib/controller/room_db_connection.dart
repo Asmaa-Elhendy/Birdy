@@ -43,4 +43,12 @@ Future editroom(Rooms_Model room,String newName)async{
 
    return db.query('rooms');
  }
+
+
+ Future close() async {
+   final db = await DatabaseConnection.setRoomDatabase();
+
+   db.close();
+ }
+
 }

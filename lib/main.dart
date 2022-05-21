@@ -9,6 +9,7 @@ import 'package:birdy_app/view/screens/start.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'controller/providers/additional_task_provider.dart';
 import 'controller/providers/bird_provider.dart';
 import 'controller/providers/new_daily_task_controller.dart';
 import 'controller/providers/new_daily_task_controller_saved_to_db.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
        ChangeNotifierProvider( create: (_)=>Rooms_Provider(),),
         ChangeNotifierProvider( create: (_)=>CageProvider(),),
         ChangeNotifierProvider(create: (_)=>DailyTasksProvider()),
+        ChangeNotifierProvider(create: (context)=>AdditionalTaskProvider()),
         ChangeNotifierProvider(create: (_)=>Weekdays()),
         ChangeNotifierProvider(create: (_)=>DailyTaskController()),
         ChangeNotifierProvider(create: (context)=>BirdProvider()),
